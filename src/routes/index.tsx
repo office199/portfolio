@@ -137,27 +137,31 @@ function Nav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all ${scrolled ? "pt-3" : "pt-6"}`}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "bg-white/90 backdrop-blur-xl shadow-[0_1px_0_0_rgba(0,0,0,0.06)]"
+          : "bg-transparent"
+      }`}
     >
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
-        <div
-          className={`flex items-center justify-between rounded-full border bg-white/80 px-2.5 py-2.5 shadow-[0_8px_32px_-16px_rgba(0,0,0,0.2)] backdrop-blur-2xl transition-all sm:px-5 ${
-            scrolled ? "bg-white/95 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.25)]" : ""
-          }`}
-        >
-          <a href="#top" className="flex items-center gap-3 pl-2">
-            <div className="grid h-8 w-8 place-items-center rounded-full bg-foreground text-background">
-              <span className="font-display text-[14px] font-bold tracking-tight">A</span>
+      <div className="mx-auto max-w-[1280px] px-6 sm:px-10">
+        <div className="flex h-16 items-center justify-between sm:h-[72px]">
+          {/* Logo */}
+          <a href="#top" className="group flex items-center gap-3">
+            <div className="grid h-9 w-9 place-items-center rounded-lg bg-foreground text-background transition-transform duration-300 group-hover:scale-105">
+              <span className="font-display text-[15px] font-bold tracking-tight">A</span>
             </div>
-            <div className="hidden sm:block leading-[0.9]">
-              <div className="font-display text-[13px] font-bold tracking-wide">ALEX RIVERA</div>
-              <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Full-Stack • 2026
+            <div className="hidden leading-none sm:block">
+              <div className="font-display text-[14px] font-bold tracking-wide transition-colors duration-300 group-hover:text-[#FF6B2B]">
+                ALEX RIVERA
+              </div>
+              <div className="mt-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+                Full-Stack Developer
               </div>
             </div>
           </a>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          {/* Nav links */}
+          <nav className="hidden items-center gap-0 md:flex">
             {[
               { l: "About", h: "#about" },
               { l: "Capabilities", h: "#capabilities" },
@@ -167,30 +171,38 @@ function Nav() {
               <a
                 key={i.l}
                 href={i.h}
-                className="rounded-full px-4 py-2 font-mono text-[12px] uppercase tracking-widest text-muted-foreground transition hover:bg-foreground hover:text-background hover:text-foreground"
+                className="group relative px-5 py-2 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground transition-colors duration-300 hover:text-foreground"
               >
                 {i.l}
+                <span className="absolute bottom-0 left-5 right-5 h-px origin-left scale-x-0 bg-[#FF6B2B] transition-transform duration-300 group-hover:scale-x-100" />
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
-            <span className="hidden items-center gap-2 rounded-full bg-[#E9FCC4] px-3 py-1.5 pl-2.5 sm:flex">
+          {/* Right side */}
+          <div className="flex items-center gap-4">
+            {/* Availability */}
+            <span className="hidden items-center gap-2.5 sm:flex">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4CAF00] opacity-60"></span>
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4CAF00]"></span>
               </span>
-              <span className="font-mono text-[11px] font-medium uppercase tracking-wide">
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground">
                 Available
               </span>
             </span>
+
+            {/* Divider */}
+            <span className="hidden h-4 w-px bg-border sm:block" />
+
+            {/* CTA */}
             <a
               href="#contact"
-              className="inline-flex h-9 items-center gap-2 rounded-full bg-foreground px-5 text-[13px] font-medium text-background transition hover:opacity-90"
+              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-background transition-all duration-300 hover:bg-[#FF6B2B] hover:shadow-lg hover:shadow-[#FF6B2B]/20"
             >
               <span className="hidden sm:inline">Let&apos;s talk</span>
-              <span className="sm:hidden">Contact</span>
-              <ArrowUpRight className="h-3.5 w-3.5" />
+              <span className="sm:hidden">Hi</span>
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </div>
         </div>
