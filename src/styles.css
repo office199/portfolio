@@ -42,6 +42,7 @@
 
 :root {
   --radius: 1rem;
+  --accent-color: #FF6B2B;
 
   /* Warm editorial light theme */
   --background: oklch(0.991 0.003 80);
@@ -80,6 +81,43 @@
   --line: oklch(0.18 0.015 50 / 0.08);
 }
 
+/* ─── Dark theme ─── */
+.dark {
+  --background: oklch(0.13 0.01 260);
+  --foreground: oklch(0.93 0.005 80);
+  --surface: oklch(0.17 0.01 260);
+  --surface-elevated: oklch(0.20 0.01 260);
+  --card: oklch(0.17 0.01 260);
+  --card-foreground: oklch(0.93 0.005 80);
+  --popover: oklch(0.17 0.01 260);
+  --popover-foreground: oklch(0.93 0.005 80);
+
+  --primary: oklch(0.93 0.005 80);
+  --primary-foreground: oklch(0.13 0.01 260);
+
+  --secondary: oklch(0.20 0.01 260);
+  --secondary-foreground: oklch(0.90 0.005 80);
+
+  --muted: oklch(0.20 0.01 260);
+  --muted-foreground: oklch(0.62 0.015 260);
+
+  --accent: oklch(0.72 0.16 52);
+  --accent-foreground: oklch(0.93 0.005 80);
+
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(0.93 0.005 80);
+
+  --border: oklch(0.93 0.005 80 / 0.10);
+  --input: oklch(0.93 0.005 80 / 0.14);
+  --ring: oklch(0.93 0.005 80);
+
+  --ink: oklch(0.93 0.005 80);
+  --paper: oklch(0.13 0.01 260);
+  --lime: oklch(0.84 0.16 125);
+  --orange: oklch(0.72 0.16 52);
+  --line: oklch(0.93 0.005 80 / 0.08);
+}
+
 @layer base {
   * {
     border-color: var(--border);
@@ -97,6 +135,7 @@
     color: var(--foreground);
     font-family: var(--font-sans);
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   ::selection {
@@ -170,6 +209,9 @@ body::before {
 ::-webkit-scrollbar-thumb {
   background: oklch(0.18 0.015 50 / 0.15);
   border-radius: 999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(0.93 0.005 80 / 0.15);
 }
 ::-webkit-scrollbar-track {
   background: transparent;

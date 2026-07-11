@@ -16,6 +16,8 @@ import {
   Cpu,
   Palette,
 } from "lucide-react";
+import { ThemeToggle } from "../components/ThemeToggle";
+import { useTheme } from "../hooks/use-theme";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -129,6 +131,7 @@ function Portfolio() {
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const { accent } = useTheme();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
@@ -139,7 +142,7 @@ function Nav() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/90 backdrop-blur-xl shadow-[0_1px_0_0_rgba(0,0,0,0.06)]"
+          ? "bg-background/90 backdrop-blur-xl shadow-[0_1px_0_0_var(--border)]"
           : "bg-transparent"
       }`}
     >
@@ -151,7 +154,12 @@ function Nav() {
               <span className="font-display text-[15px] font-bold tracking-tight">A</span>
             </div>
             <div className="hidden leading-none sm:block">
-              <div className="font-display text-[14px] font-bold tracking-wide transition-colors duration-300 group-hover:text-[#FF6B2B]">
+              <div
+                className="font-display text-[14px] font-bold tracking-wide transition-colors duration-300"
+                style={{ ["--hover-color" as string]: accent.value }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = accent.value)}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "")}
+              >
                 ALEX RIVERA
               </div>
               <div className="mt-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -174,13 +182,16 @@ function Nav() {
                 className="group relative px-5 py-2 font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground transition-colors duration-300 hover:text-foreground"
               >
                 {i.l}
-                <span className="absolute bottom-0 left-5 right-5 h-px origin-left scale-x-0 bg-[#FF6B2B] transition-transform duration-300 group-hover:scale-x-100" />
+                <span
+                  className="absolute bottom-0 left-5 right-5 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+                  style={{ backgroundColor: accent.value }}
+                />
               </a>
             ))}
           </nav>
 
           {/* Right side */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {/* Availability */}
             <span className="hidden items-center gap-2.5 sm:flex">
               <span className="relative flex h-2 w-2">
@@ -195,10 +206,27 @@ function Nav() {
             {/* Divider */}
             <span className="hidden h-4 w-px bg-border sm:block" />
 
+            {/* Theme Toggle Button */}
+            <ThemeToggle />
+
+            {/* Divider */}
+            <span className="hidden h-4 w-px bg-border sm:block" />
+
             {/* CTA */}
             <a
               href="#contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-background transition-all duration-300 hover:bg-[#FF6B2B] hover:shadow-lg hover:shadow-[#FF6B2B]/20"
+              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-background transition-all duration-300 hover:shadow-lg"
+              style={{
+                ["--btn-hover-bg" as string]: accent.value,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = accent.value;
+                e.currentTarget.style.boxShadow = `0 10px 25px -5px ${accent.value}33`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "";
+                e.currentTarget.style.boxShadow = "";
+              }}
             >
               <span className="hidden sm:inline">Let&apos;s talk</span>
               <span className="sm:hidden">Hi</span>
@@ -219,14 +247,14 @@ function Hero() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--line)_1px,transparent_1px),linear-gradient(to_bottom,var(--line)_1px,transparent_1px)] bg-[size:72px_72px]" />
         <div className="absolute left-[-10%] top-[10%] h-[600px] w-[600px] rounded-full bg-[#FFD6B8] blur-[120px] opacity-60" />
         <div className="absolute right-[-10%] top-[20%] h-[700px] w-[700px] rounded-full bg-[#D6FF6B]/60 blur-[130px] opacity-70" />
-        <div className="absolute bottom-[-20%] left-[30%] h-[500px] w-[800px] rounded-full bg-[#FF6B2B]/20 blur-[120px]" />
+        <div className="absolute bottom-[-20%] left-[30%] h-[500px] w-[800px] rounded-full blur-[120px] opacity-20" style={{ backgroundColor: "var(--accent-color)" }} />
       </div>
 
       <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6">
         <div className="grid min-h-[100svh] grid-cols-12 gap-6 pb-12 pt-28 sm:pb-20 sm:pt-36">
           {/* Eyebrow + main */}
           <div className="col-span-12 lg:col-span-8">
-            <div className="inline-flex items-center gap-2 rounded-full border bg-white px-3 py-1.5 shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-3 py-1.5 shadow-sm">
               <Sparkles className="h-3.5 w-3.5" />
               <span className="font-mono text-[11px] uppercase tracking-widest">
                 Full-Stack Developer • Remote worldwide
@@ -235,7 +263,7 @@ function Hero() {
 
             <h1 className="mt-8 font-display text-[12vw] font-[800] leading-[0.85] tracking-[-0.04em] sm:text-[9vw] lg:text-[96px]">
               <span className="block">FULL-STACK</span>
-              <span className="block font-serif font-normal italic tracking-[-0.02em] text-[#FF6B2B]">
+              <span className="block font-serif font-normal italic tracking-[-0.02em] text-[var(--accent-color)]">
                 developer
               </span>
               <span className="block">BUILDING FOR</span>
@@ -262,13 +290,13 @@ function Hero() {
                   className="group inline-flex h-[52px] w-full items-center justify-between rounded-full bg-foreground px-2 pl-7 text-[14px] font-medium text-background transition hover:opacity-95 sm:w-[220px]"
                 >
                   <span>View selected work</span>
-                  <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-black transition group-hover:rotate-45">
+                  <span className="grid h-9 w-9 place-items-center rounded-full bg-surface-elevated text-foreground transition group-hover:rotate-45">
                     <ArrowUpRight className="h-4 w-4" />
                   </span>
                 </a>
                 <a
                   href="#about"
-                  className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-full border bg-white px-7 text-[14px] font-medium transition hover:bg-muted sm:w-[220px]"
+                  className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-full border bg-surface-elevated px-7 text-[14px] font-medium transition hover:bg-muted sm:w-[220px]"
                 >
                   About me <ArrowRight className="h-4 w-4" />
                 </a>
@@ -280,12 +308,12 @@ function Hero() {
           <div className="col-span-12 lg:col-span-4 lg:pl-6">
             <div className="sticky top-[120px] mt-8 lg:mt-0">
               {/* Profile / status card */}
-              <div className="relative overflow-hidden rounded-[28px] border bg-white p-2 shadow-[0_24px_64px_-24px_rgba(0,0,0,0.25)]">
+              <div className="relative overflow-hidden rounded-[28px] border bg-surface-elevated p-2 shadow-[0_24px_64px_-24px_rgba(0,0,0,0.25)]">
                 <div className="rounded-[20px] bg-[#0F0F0F] p-6 text-white">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
                       <div className="h-11 w-11 overflow-hidden rounded-full bg-white/20">
-                        <div className="grid h-full w-full place-items-center bg-gradient-to-br from-[#FF6B2B] to-[#FFD6B8] font-display text-[18px] font-bold text-black">
+                        <div className="grid h-full w-full place-items-center bg-gradient-to-br from-[var(--accent-color)] to-[#FFD6B8] font-display text-[18px] font-bold text-black">
                           A
                         </div>
                       </div>
@@ -333,7 +361,7 @@ function Hero() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 p-2 pt-2">
-                  <div className="rounded-[16px] bg-[#F6F3EE] p-4">
+                  <div className="rounded-[16px] bg-surface p-4">
                     <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                       Currently
                     </div>
@@ -351,7 +379,7 @@ function Hero() {
               </div>
 
               {/* Small social */}
-              <div className="mt-4 flex justify-between gap-2 rounded-full border bg-white px-2 py-2">
+              <div className="mt-4 flex justify-between gap-2 rounded-full border bg-surface-elevated px-2 py-2">
                 {[
                   { icon: Github, label: "GitHub" },
                   { icon: Linkedin, label: "LinkedIn" },
@@ -412,7 +440,7 @@ function Marquee() {
 
 function About() {
   return (
-    <section id="about" className="border-b bg-[#FFFEFD]">
+    <section id="about" className="border-b bg-background">
       <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-6 sm:py-28">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-12 lg:col-span-5">
@@ -429,7 +457,7 @@ function About() {
                 with taste.
               </h2>
 
-              <div className="mt-10 hidden max-w-[320px] rounded-2xl border bg-white p-4 shadow-sm lg:block">
+              <div className="mt-10 hidden max-w-[320px] rounded-2xl border bg-surface-elevated p-4 shadow-sm lg:block">
                 <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                   <Layers className="h-3.5 w-3.5" />
                   Philosophy
@@ -451,7 +479,7 @@ function About() {
               </p>
 
               <div className="mt-12 grid gap-8 sm:grid-cols-2">
-                <div className="rounded-[20px] border bg-white p-6">
+                <div className="rounded-[20px] border bg-surface-elevated p-6">
                   <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                     Frontend
                   </div>
@@ -491,7 +519,7 @@ function About() {
                 </div>
               </div>
 
-              <div className="mt-10 rounded-[20px] border bg-[#F6F3EE] p-6 sm:p-8">
+              <div className="mt-10 rounded-[20px] border bg-surface p-6 sm:p-8">
                 <div className="flex flex-wrap items-center gap-3">
                   <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                     Now focused on
@@ -501,9 +529,9 @@ function About() {
                     {["Next.js 15", "FastAPI", "Real-time infra", "AI SDKs"].map((t) => (
                       <span
                         key={t}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[13px] font-medium shadow-sm"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-surface-elevated px-3 py-1.5 text-[13px] font-medium shadow-sm"
                       >
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#FF6B2B]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-color)]" />
                         {t}
                       </span>
                     ))}
@@ -542,7 +570,7 @@ function Capabilities() {
           {capabilities.map((c, i) => (
             <div
               key={c.title}
-              className="group relative flex flex-col rounded-[24px] border bg-white p-7 transition hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.2)]"
+              className="group relative flex flex-col rounded-[24px] border bg-surface-elevated p-7 transition hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.2)]"
             >
               <div className="flex items-start justify-between">
                 <div className="grid h-11 w-11 place-items-center rounded-full border bg-muted">
@@ -560,7 +588,7 @@ function Capabilities() {
                 {c.list.map((l) => (
                   <span
                     key={l}
-                    className="rounded-full bg-[#F6F3EE] px-3 py-1 font-mono text-[11px] uppercase tracking-wide"
+                    className="rounded-full bg-surface px-3 py-1 font-mono text-[11px] uppercase tracking-wide"
                   >
                     {l}
                   </span>
@@ -577,11 +605,11 @@ function Capabilities() {
 
 function Projects() {
   return (
-    <section id="work" className="border-y bg-[#F6F3EE]">
+    <section id="work" className="border-y bg-surface">
       <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-6 sm:py-28">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border bg-white px-3 py-1">
+            <div className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-3 py-1">
               <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
               <span className="font-mono text-[11px] uppercase tracking-widest">
                 03 — Selected work
@@ -673,7 +701,7 @@ function Projects() {
 
                     <div className="mt-auto space-y-4">
                       <div className="grid grid-cols-[auto_1fr] gap-4 rounded-2xl border border-current/10 bg-white/10 p-4 backdrop-blur">
-                        <div className="grid h-10 w-10 place-items-center rounded-full bg-white text-black">
+                        <div className="grid h-10 w-10 place-items-center rounded-full bg-surface-elevated text-foreground">
                           <Layers className="h-5 w-5" />
                         </div>
                         <div>
@@ -707,7 +735,7 @@ function Projects() {
         <div className="mt-10 flex justify-center">
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 rounded-full border bg-white px-6 py-3 font-mono text-[12px] uppercase tracking-widest shadow-sm transition hover:bg-foreground hover:text-background"
+            className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-6 py-3 font-mono text-[12px] uppercase tracking-widest shadow-sm transition hover:bg-foreground hover:text-background"
           >
             More work on request — 12+ shipped
             <ArrowRight className="h-3.5 w-3.5" />
@@ -747,7 +775,7 @@ function Stack() {
               </p>
               <div className="mt-6 h-px bg-white/10" />
               <div className="mt-6 flex items-center gap-3">
-                <div className="grid h-8 w-8 place-items-center rounded-full bg-white text-black font-display text-[12px] font-bold">
+                <div className="grid h-8 w-8 place-items-center rounded-full bg-surface-elevated text-foreground font-display text-[12px] font-bold">
                   A
                 </div>
                 <div className="text-[13px]">
@@ -763,7 +791,7 @@ function Stack() {
               {stack.map((s, i) => (
                 <div
                   key={s.name}
-                  className="group flex items-center justify-between rounded-full border bg-white px-5 py-4 transition hover:border-foreground/15 hover:shadow-[0_12px_32px_-16px_rgba(0,0,0,0.2)] sm:px-6"
+                  className="group flex items-center justify-between rounded-full border bg-surface-elevated px-5 py-4 transition hover:border-foreground/15 hover:shadow-[0_12px_32px_-16px_rgba(0,0,0,0.2)] sm:px-6"
                 >
                   <div className="flex items-center gap-4">
                     <span className="hidden font-mono text-[11px] text-muted-foreground sm:inline">
@@ -782,7 +810,7 @@ function Stack() {
                   <div className="flex items-center gap-4">
                     <div className="hidden h-1.5 w-[120px] overflow-hidden rounded-full bg-muted sm:block">
                       <div
-                        className="h-full rounded-full bg-foreground transition-all group-hover:bg-[#FF6B2B]"
+                        className="h-full rounded-full bg-foreground transition-all group-hover:bg-[var(--accent-color)]"
                         style={{ width: `${s.level}%` }}
                       />
                     </div>
@@ -846,12 +874,12 @@ function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
 
   return (
-    <section id="contact" className="bg-[#FFFEFD]">
+    <section id="contact" className="bg-background">
       <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-6 sm:py-28">
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 lg:col-span-7">
-            <div className="inline-flex items-center gap-2 rounded-full border bg-white px-3 py-1">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#FF6B2B]" />
+            <div className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-3 py-1">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--accent-color)]" />
               <span className="font-mono text-[11px] uppercase tracking-widest">05 — Contact</span>
             </div>
 
@@ -860,7 +888,7 @@ function Contact() {
               <br />
               BUILD
               <br />
-              <span className="font-serif font-normal italic text-[#FF6B2B]">something</span>
+              <span className="font-serif font-normal italic text-[var(--accent-color)]">something</span>
               <br />
               REAL.
             </h2>
@@ -868,21 +896,21 @@ function Contact() {
             <div className="mt-10 flex flex-wrap gap-3">
               <a
                 href="mailto:hello@alex.dev"
-                className="inline-flex items-center gap-2 rounded-full border bg-white px-5 py-3 font-mono text-[12px] uppercase tracking-widest shadow-sm transition hover:bg-foreground hover:text-background"
+                className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-5 py-3 font-mono text-[12px] uppercase tracking-widest shadow-sm transition hover:bg-foreground hover:text-background"
               >
                 <Mail className="h-4 w-4" />
                 hello@alex.dev
               </a>
               <a
                 href="#"
-                className="inline-flex items-center gap-2 rounded-full border bg-white px-5 py-3 font-mono text-[12px] uppercase tracking-widest shadow-sm transition hover:bg-foreground hover:text-background"
+                className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-5 py-3 font-mono text-[12px] uppercase tracking-widest shadow-sm transition hover:bg-foreground hover:text-background"
               >
                 <Github className="h-4 w-4" />
                 github
               </a>
               <a
                 href="#"
-                className="inline-flex items-center gap-2 rounded-full border bg-white px-5 py-3 font-mono text-[12px] uppercase tracking-widest shadow-sm transition hover:bg-foreground hover:text-background"
+                className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-5 py-3 font-mono text-[12px] uppercase tracking-widest shadow-sm transition hover:bg-foreground hover:text-background"
               >
                 <Linkedin className="h-4 w-4" />
                 linkedin
@@ -890,7 +918,7 @@ function Contact() {
             </div>
 
             <div className="mt-16 hidden lg:block">
-              <div className="max-w-[340px] rounded-[20px] border bg-white p-6">
+              <div className="max-w-[340px] rounded-[20px] border bg-surface-elevated p-6">
                 <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                   Office hours
                 </div>
@@ -913,7 +941,7 @@ function Contact() {
           </div>
 
           <div className="col-span-12 lg:col-span-5">
-            <div className="sticky top-28 rounded-[28px] border bg-white p-2 shadow-[0_24px_64px_-24px_rgba(0,0,0,0.2)]">
+            <div className="sticky top-28 rounded-[28px] border bg-surface-elevated p-2 shadow-[0_24px_64px_-24px_rgba(0,0,0,0.2)]">
               <form
                 ref={formRef}
                 onSubmit={(e) => {
@@ -921,11 +949,11 @@ function Contact() {
                   setSent(true);
                   setTimeout(() => setSent(false), 4000);
                 }}
-                className="rounded-[20px] bg-[#F6F3EE] p-6 sm:p-8"
+                className="rounded-[20px] bg-surface p-6 sm:p-8"
               >
                 <div className="flex items-center justify-between">
                   <h3 className="font-display text-[20px] font-bold">Start a project</h3>
-                  <span className="rounded-full bg-white px-3 py-1 font-mono text-[10px] uppercase tracking-widest shadow-sm">
+                  <span className="rounded-full bg-surface-elevated px-3 py-1 font-mono text-[10px] uppercase tracking-widest shadow-sm">
                     2 min • No spam
                   </span>
                 </div>
@@ -940,7 +968,7 @@ function Contact() {
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="Alex Rivera"
-                      className="mt-2 w-full rounded-full border bg-white px-5 py-3.5 font-sans text-[15px] outline-none transition focus:border-foreground focus:ring-4 focus:ring-foreground/10"
+                      className="mt-2 w-full rounded-full border bg-surface-elevated px-5 py-3.5 font-sans text-[15px] outline-none transition focus:border-foreground focus:ring-4 focus:ring-foreground/10"
                     />
                   </label>
 
@@ -954,7 +982,7 @@ function Contact() {
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="you@company.com"
-                      className="mt-2 w-full rounded-full border bg-white px-5 py-3.5 font-sans text-[15px] outline-none transition focus:border-foreground focus:ring-4 focus:ring-foreground/10"
+                      className="mt-2 w-full rounded-full border bg-surface-elevated px-5 py-3.5 font-sans text-[15px] outline-none transition focus:border-foreground focus:ring-4 focus:ring-foreground/10"
                     />
                   </label>
 
@@ -971,7 +999,7 @@ function Contact() {
                           className={`rounded-full border px-3 py-2.5 font-mono text-[12px] uppercase tracking-wide transition ${
                             form.budget === b
                               ? "border-foreground bg-foreground text-background"
-                              : "bg-white hover:border-foreground/20"
+                              : "bg-surface-elevated hover:border-foreground/20"
                           }`}
                         >
                           {b}
@@ -990,7 +1018,7 @@ function Contact() {
                       value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}
                       placeholder="Tell me about your product, timeline, stack…"
-                      className="mt-2 w-full resize-none rounded-[20px] border bg-white px-5 py-4 font-sans text-[15px] leading-[1.5] outline-none transition focus:border-foreground focus:ring-4 focus:ring-foreground/10"
+                      className="mt-2 w-full resize-none rounded-[20px] border bg-surface-elevated px-5 py-4 font-sans text-[15px] leading-[1.5] outline-none transition focus:border-foreground focus:ring-4 focus:ring-foreground/10"
                     />
                   </label>
 
@@ -1008,7 +1036,7 @@ function Contact() {
                     ) : (
                       <>
                         Send message
-                        <span className="grid h-7 w-7 place-items-center rounded-full bg-white text-black transition group-hover:rotate-45">
+                        <span className="grid h-7 w-7 place-items-center rounded-full bg-surface-elevated text-foreground transition group-hover:rotate-45">
                           <ArrowUpRight className="h-4 w-4" />
                         </span>
                       </>
@@ -1030,7 +1058,7 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="border-t bg-white">
+    <footer className="border-t bg-surface-elevated">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
         <div className="flex flex-col gap-10 py-10 sm:flex-row sm:items-center sm:justify-between sm:py-12">
           <div className="flex items-center gap-4">
@@ -1058,7 +1086,7 @@ function Footer() {
         </div>
 
         <div className="overflow-hidden border-t py-2">
-          <div className="font-display text-[14vw] font-[800] leading-[0.8] tracking-[-0.04em] text-[#F2EEE7] select-none">
+          <div className="font-display text-[14vw] font-[800] leading-[0.8] tracking-[-0.04em] text-muted select-none">
             ALEX RIVERA
           </div>
         </div>
