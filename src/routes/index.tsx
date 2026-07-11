@@ -17,7 +17,9 @@ import {
   Palette,
 } from "lucide-react";
 import { ThemeToggle } from "../components/ThemeToggle";
+import { ScrollToTop } from "../components/ScrollToTop";
 import { useTheme } from "../hooks/use-theme";
+import { useScrollReveal } from "../hooks/use-scroll-reveal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -125,6 +127,7 @@ function Portfolio() {
       <QuoteSection />
       <Contact />
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }
@@ -254,7 +257,7 @@ function Hero() {
         <div className="grid min-h-[100svh] grid-cols-12 gap-6 pb-12 pt-28 sm:pb-20 sm:pt-36">
           {/* Eyebrow + main */}
           <div className="col-span-12 lg:col-span-8">
-            <div className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-3 py-1.5 shadow-sm">
+            <div className="hero-eyebrow inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-3 py-1.5 shadow-sm">
               <Sparkles className="h-3.5 w-3.5" />
               <span className="font-mono text-[11px] uppercase tracking-widest">
                 Full-Stack Developer • Remote worldwide
@@ -262,12 +265,12 @@ function Hero() {
             </div>
 
             <h1 className="mt-8 font-display text-[12vw] font-[800] leading-[0.85] tracking-[-0.04em] sm:text-[9vw] lg:text-[96px]">
-              <span className="block">FULL-STACK</span>
-              <span className="block font-serif font-normal italic tracking-[-0.02em] text-[var(--accent-color)]">
+              <span className="hero-title-line block">FULL-STACK</span>
+              <span className="hero-title-line block font-serif font-normal italic tracking-[-0.02em] text-[var(--accent-color)]">
                 developer
               </span>
-              <span className="block">BUILDING FOR</span>
-              <span className="relative inline-block">
+              <span className="hero-title-line block">BUILDING FOR</span>
+              <span className="hero-title-line relative inline-block">
                 SCALE
                 <span className="absolute -right-3 -top-2 hidden rotate-12 rounded-full bg-[#D6FF6B] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-black shadow-sm sm:inline-flex">
                   est. 2019
@@ -275,7 +278,7 @@ function Hero() {
               </span>
             </h1>
 
-            <div className="mt-10 grid max-w-3xl grid-cols-12 gap-6">
+            <div className="hero-body mt-10 grid max-w-3xl grid-cols-12 gap-6">
               <p className="col-span-12 font-sans text-[18px] leading-[1.5] text-muted-foreground sm:col-span-8 sm:text-[20px]">
                 I&apos;m Alex — I design resilient backend architectures and craft fast, accessible
                 frontends that ship{" "}
@@ -305,7 +308,7 @@ function Hero() {
           </div>
 
           {/* Side card */}
-          <div className="col-span-12 lg:col-span-4 lg:pl-6">
+          <div className="hero-card col-span-12 lg:col-span-4 lg:pl-6">
             <div className="sticky top-[120px] mt-8 lg:mt-0">
               {/* Profile / status card */}
               <div className="relative overflow-hidden rounded-[28px] border bg-surface-elevated p-2 shadow-[0_24px_64px_-24px_rgba(0,0,0,0.25)]">
@@ -439,17 +442,27 @@ function Marquee() {
 }
 
 function About() {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section id="about" className="border-b bg-background">
+    <section
+      id="about"
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`border-b bg-background ${isVisible ? "is-visible" : ""}`}
+    >
       <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-6 sm:py-28">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-12 lg:col-span-5">
             <div className="sticky top-32">
-              <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1">
+              <div
+                className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 reveal-up ${isVisible ? "is-visible" : ""} stagger-1`}
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
                 <span className="font-mono text-[11px] uppercase tracking-widest">01 — About</span>
               </div>
-              <h2 className="mt-6 font-display text-[40px] font-bold leading-[0.9] tracking-[-0.03em] sm:text-[56px]">
+              <h2
+                className={`mt-6 font-display text-[40px] font-bold leading-[0.9] tracking-[-0.03em] sm:text-[56px] reveal-up ${isVisible ? "is-visible" : ""} stagger-2`}
+              >
                 End-to-end
                 <br />
                 <span className="font-serif font-normal italic text-muted-foreground">engineering</span>
@@ -457,7 +470,9 @@ function About() {
                 with taste.
               </h2>
 
-              <div className="mt-10 hidden max-w-[320px] rounded-2xl border bg-surface-elevated p-4 shadow-sm lg:block">
+              <div
+                className={`mt-10 hidden max-w-[320px] rounded-2xl border bg-surface-elevated p-4 shadow-sm lg:block reveal-left ${isVisible ? "is-visible" : ""} stagger-3`}
+              >
                 <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                   <Layers className="h-3.5 w-3.5" />
                   Philosophy
@@ -472,14 +487,18 @@ function About() {
 
           <div className="col-span-12 lg:col-span-7">
             <div className="prose prose-neutral max-w-none">
-              <p className="font-sans text-[24px] font-[350] leading-[1.35] tracking-[-0.015em] text-foreground sm:text-[28px]">
+              <p
+                className={`font-sans text-[24px] font-[350] leading-[1.35] tracking-[-0.015em] text-foreground sm:text-[28px] reveal-up ${isVisible ? "is-visible" : ""} stagger-2`}
+              >
                 I bridge the gap between polished frontend experiences and robust backend
                 architectures. On the client, I obsess over performance, accessibility and motion; on
                 the server, I design typed APIs, normalized schemas and observable systems.
               </p>
 
               <div className="mt-12 grid gap-8 sm:grid-cols-2">
-                <div className="rounded-[20px] border bg-surface-elevated p-6">
+                <div
+                  className={`rounded-[20px] border bg-surface-elevated p-6 reveal-up ${isVisible ? "is-visible" : ""} stagger-3`}
+                >
                   <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                     Frontend
                   </div>
@@ -498,7 +517,9 @@ function About() {
                     ))}
                   </div>
                 </div>
-                <div className="rounded-[20px] border bg-[#0F0F0F] p-6 text-white">
+                <div
+                  className={`rounded-[20px] border bg-[#0F0F0F] p-6 text-white reveal-up ${isVisible ? "is-visible" : ""} stagger-4`}
+                >
                   <div className="font-mono text-[11px] uppercase tracking-widest text-white/50">
                     Backend
                   </div>
@@ -519,7 +540,9 @@ function About() {
                 </div>
               </div>
 
-              <div className="mt-10 rounded-[20px] border bg-surface p-6 sm:p-8">
+              <div
+                className={`mt-10 rounded-[20px] border bg-surface p-6 sm:p-8 reveal-scale ${isVisible ? "is-visible" : ""} stagger-5`}
+              >
                 <div className="flex flex-wrap items-center gap-3">
                   <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                     Now focused on
@@ -547,11 +570,17 @@ function About() {
 }
 
 function Capabilities() {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section id="capabilities" className="bg-background">
+    <section
+      id="capabilities"
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`bg-background ${isVisible ? "is-visible" : ""}`}
+    >
       <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-6 sm:py-28">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <div>
+          <div className={`reveal-left ${isVisible ? "is-visible" : ""} stagger-1`}>
             <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1">
               <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
               <span className="font-mono text-[11px] uppercase tracking-widest">02 — Capabilities</span>
@@ -561,7 +590,9 @@ function Capabilities() {
               <span className="font-serif font-normal italic"> best.</span>
             </h2>
           </div>
-          <p className="max-w-[380px] text-[16px] leading-[1.6] text-muted-foreground">
+          <p
+            className={`max-w-[380px] text-[16px] leading-[1.6] text-muted-foreground reveal-right ${isVisible ? "is-visible" : ""} stagger-2`}
+          >
             A pragmatic toolkit spanning the whole stack — from design tokens to database indexes.
           </p>
         </div>
@@ -570,7 +601,7 @@ function Capabilities() {
           {capabilities.map((c, i) => (
             <div
               key={c.title}
-              className="group relative flex flex-col rounded-[24px] border bg-surface-elevated p-7 transition hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.2)]"
+              className={`group relative flex flex-col rounded-[24px] border bg-surface-elevated p-7 transition hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.2)] reveal-up ${isVisible ? "is-visible" : ""} stagger-${i + 2} `}
             >
               <div className="flex items-start justify-between">
                 <div className="grid h-11 w-11 place-items-center rounded-full border bg-muted">
@@ -604,11 +635,17 @@ function Capabilities() {
 }
 
 function Projects() {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section id="work" className="border-y bg-surface">
+    <section
+      id="work"
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`border-y bg-surface ${isVisible ? "is-visible" : ""}`}
+    >
       <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-6 sm:py-28">
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <div>
+          <div className={`reveal-left ${isVisible ? "is-visible" : ""} stagger-1`}>
             <div className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-3 py-1">
               <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
               <span className="font-mono text-[11px] uppercase tracking-widest">
@@ -621,7 +658,7 @@ function Projects() {
               <span className="font-serif font-normal italic">shipping.</span>
             </h2>
           </div>
-          <div className="hidden items-center gap-2 sm:flex">
+          <div className={`hidden items-center gap-2 sm:flex reveal-right ${isVisible ? "is-visible" : ""} stagger-2`}>
             <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
               2024 — 2025 • 3 projects
             </span>
@@ -633,10 +670,10 @@ function Projects() {
         </div>
 
         <div className="mt-14 space-y-6">
-          {projects.map((p) => (
+          {projects.map((p, idx) => (
             <article
               key={p.id}
-              className={`group relative overflow-hidden rounded-[28px] border ${p.color} transition hover:shadow-[0_32px_80px_-24px_rgba(0,0,0,0.25)]`}
+              className={`group relative overflow-hidden rounded-[28px] border ${p.color} transition hover:shadow-[0_32px_80px_-24px_rgba(0,0,0,0.25)] reveal-up ${isVisible ? "is-visible" : ""} stagger-${idx + 2}`}
             >
               <div className="grid lg:grid-cols-12">
                 <div className="p-8 sm:p-10 lg:col-span-7">
@@ -732,7 +769,7 @@ function Projects() {
           ))}
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className={`mt-10 flex justify-center reveal-fade ${isVisible ? "is-visible" : ""} stagger-6`}>
           <a
             href="#contact"
             className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-6 py-3 font-mono text-[12px] uppercase tracking-widest shadow-sm transition hover:bg-foreground hover:text-background"
@@ -747,25 +784,35 @@ function Projects() {
 }
 
 function Stack() {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section id="stack" className="bg-background">
+    <section
+      id="stack"
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`bg-background ${isVisible ? "is-visible" : ""}`}
+    >
       <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-6 sm:py-28">
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-12 lg:col-span-5">
-            <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1">
+            <div className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 reveal-up ${isVisible ? "is-visible" : ""} stagger-1`}>
               <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
               <span className="font-mono text-[11px] uppercase tracking-widest">04 — Stack</span>
             </div>
-            <h2 className="mt-6 max-w-[420px] font-display text-[36px] font-bold leading-[0.95] tracking-[-0.03em] sm:text-[48px]">
+            <h2
+              className={`mt-6 max-w-[420px] font-display text-[36px] font-bold leading-[0.95] tracking-[-0.03em] sm:text-[48px] reveal-left ${isVisible ? "is-visible" : ""} stagger-2`}
+            >
               Tools I reach for
               <span className="font-serif font-normal italic"> daily.</span>
             </h2>
-            <p className="mt-4 max-w-[360px] text-[15px] leading-[1.6] text-muted-foreground">
+            <p
+              className={`mt-4 max-w-[360px] text-[15px] leading-[1.6] text-muted-foreground reveal-up ${isVisible ? "is-visible" : ""} stagger-3`}
+            >
               Opinionated, production-tested, boring where it counts. No hype cycles — just tools
               that ship.
             </p>
 
-            <div className="mt-10 hidden rounded-[20px] border bg-[#0F0F0F] p-6 text-white lg:block">
+            <div className={`mt-10 hidden rounded-[20px] border bg-[#0F0F0F] p-6 text-white lg:block reveal-scale ${isVisible ? "is-visible" : ""} stagger-4`}>
               <div className="font-mono text-[11px] uppercase tracking-widest text-white/60">
                 How I choose
               </div>
@@ -791,7 +838,7 @@ function Stack() {
               {stack.map((s, i) => (
                 <div
                   key={s.name}
-                  className="group flex items-center justify-between rounded-full border bg-surface-elevated px-5 py-4 transition hover:border-foreground/15 hover:shadow-[0_12px_32px_-16px_rgba(0,0,0,0.2)] sm:px-6"
+                  className={`group flex items-center justify-between rounded-full border bg-surface-elevated px-5 py-4 transition hover:border-foreground/15 hover:shadow-[0_12px_32px_-16px_rgba(0,0,0,0.2)] sm:px-6 reveal-right ${isVisible ? "is-visible" : ""} stagger-${Math.min(i + 1, 8)}`}
                 >
                   <div className="flex items-center gap-4">
                     <span className="hidden font-mono text-[11px] text-muted-foreground sm:inline">
@@ -827,24 +874,31 @@ function Stack() {
 }
 
 function QuoteSection() {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <section className="border-y bg-foreground py-20 text-background sm:py-28">
+    <section
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`border-y bg-foreground py-20 text-background sm:py-28 ${isVisible ? "is-visible" : ""}`}
+    >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
         <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-12 lg:col-span-3">
+          <div className={`col-span-12 lg:col-span-3 reveal-left ${isVisible ? "is-visible" : ""} stagger-1`}>
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1">
               <Quote className="h-3 w-3" />
               <span className="font-mono text-[11px] uppercase tracking-widest">Testimonial</span>
             </div>
           </div>
           <div className="col-span-12 lg:col-span-9">
-            <blockquote className="font-display text-[32px] font-medium leading-[1.05] tracking-[-0.02em] sm:text-[48px]">
+            <blockquote
+              className={`font-display text-[32px] font-medium leading-[1.05] tracking-[-0.02em] sm:text-[48px] reveal-up ${isVisible ? "is-visible" : ""} stagger-2`}
+            >
               <span className="text-white/40">“</span>Alex shipped our analytics platform in 6 weeks.
               <span className="font-serif font-normal italic text-[#D6FF6B]"> Clean code, zero drama,</span>{" "}
               scales like a dream. Would hire again in a heartbeat.
               <span className="text-white/40">”</span>
             </blockquote>
-            <div className="mt-10 flex items-center gap-4">
+            <div className={`mt-10 flex items-center gap-4 reveal-fade ${isVisible ? "is-visible" : ""} stagger-4`}>
               <div className="h-12 w-12 overflow-hidden rounded-full bg-white/15">
                 <div className="grid h-full w-full place-items-center bg-[#D6FF6B] font-display font-bold text-black">
                   S
@@ -872,18 +926,27 @@ function Contact() {
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", budget: "10-25k", message: "" });
   const formRef = useRef<HTMLFormElement>(null);
+  const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section id="contact" className="bg-background">
+    <section
+      id="contact"
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`bg-background ${isVisible ? "is-visible" : ""}`}
+    >
       <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-6 sm:py-28">
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-12 lg:col-span-7">
-            <div className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-3 py-1">
+            <div
+              className={`inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-3 py-1 reveal-up ${isVisible ? "is-visible" : ""} stagger-1`}
+            >
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--accent-color)]" />
               <span className="font-mono text-[11px] uppercase tracking-widest">05 — Contact</span>
             </div>
 
-            <h2 className="mt-6 font-display text-[48px] font-bold leading-[0.9] tracking-[-0.04em] sm:text-[72px]">
+            <h2
+              className={`mt-6 font-display text-[48px] font-bold leading-[0.9] tracking-[-0.04em] sm:text-[72px] reveal-left ${isVisible ? "is-visible" : ""} stagger-2`}
+            >
               LET&apos;S
               <br />
               BUILD
@@ -893,7 +956,7 @@ function Contact() {
               REAL.
             </h2>
 
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className={`mt-10 flex flex-wrap gap-3 reveal-up ${isVisible ? "is-visible" : ""} stagger-3`}>
               <a
                 href="mailto:hello@alex.dev"
                 className="inline-flex items-center gap-2 rounded-full border bg-surface-elevated px-5 py-3 font-mono text-[12px] uppercase tracking-widest shadow-sm transition hover:bg-foreground hover:text-background"
@@ -917,7 +980,7 @@ function Contact() {
               </a>
             </div>
 
-            <div className="mt-16 hidden lg:block">
+            <div className={`mt-16 hidden lg:block reveal-scale ${isVisible ? "is-visible" : ""} stagger-4`}>
               <div className="max-w-[340px] rounded-[20px] border bg-surface-elevated p-6">
                 <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                   Office hours
@@ -940,7 +1003,7 @@ function Contact() {
             </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-5">
+          <div className={`col-span-12 lg:col-span-5 reveal-right ${isVisible ? "is-visible" : ""} stagger-3`}>
             <div className="sticky top-28 rounded-[28px] border bg-surface-elevated p-2 shadow-[0_24px_64px_-24px_rgba(0,0,0,0.2)]">
               <form
                 ref={formRef}
@@ -1057,10 +1120,17 @@ function Contact() {
 }
 
 function Footer() {
+  const { ref, isVisible } = useScrollReveal();
+
   return (
-    <footer className="border-t bg-surface-elevated">
+    <footer
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`border-t bg-surface-elevated ${isVisible ? "is-visible" : ""}`}
+    >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6">
-        <div className="flex flex-col gap-10 py-10 sm:flex-row sm:items-center sm:justify-between sm:py-12">
+        <div
+          className={`flex flex-col gap-10 py-10 sm:flex-row sm:items-center sm:justify-between sm:py-12 reveal-fade ${isVisible ? "is-visible" : ""} stagger-1`}
+        >
           <div className="flex items-center gap-4">
             <div className="grid h-10 w-10 place-items-center rounded-full bg-foreground font-display text-[16px] font-bold text-background">
               A
@@ -1085,7 +1155,7 @@ function Footer() {
           </div>
         </div>
 
-        <div className="overflow-hidden border-t py-2">
+        <div className={`overflow-hidden border-t py-2 reveal-up ${isVisible ? "is-visible" : ""} stagger-2`}>
           <div className="font-display text-[14vw] font-[800] leading-[0.8] tracking-[-0.04em] text-muted select-none">
             ALEX RIVERA
           </div>
