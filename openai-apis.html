@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenAI & ChatGPT.com - Complete API Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Syne:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Geist','sans-serif'],
+        mono: ['Geist Mono','monospace'],
+        display: ['Syne','sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  body { background: #0a0a0b; }
+  .glass { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+  .method-get { background: #3b82f6; }
+  .method-post { background: #22c55e; }
+  .method-delete { background: #ef4444; }
+  .method-ws { background: #a855f7; }
+  .glow { box-shadow: 0 0 40px rgba(99,102,241,0.15); }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+</style>
+</head>
+<body class="text-zinc-200 font-sans antialiased selection:bg-violet-500/30">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-[#0a0a0b]/80 backdrop-blur-xl">
+    <div class="max-w-[1280px] mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-white text-black grid place-items-center font-display font-bold text-[18px]">O</div>
+        <div>
+          <h1 class="font-display font-bold text-[18px] leading-none">OpenAI API Atlas</h1>
+          <p class="text-[11px] text-zinc-500 font-mono tracking-widest uppercase mt-1">chatgpt.com • platform.openai.com • 2026 Edition</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="hidden md:flex items-center gap-2 text-[11px] font-mono text-zinc-400 glass rounded-full px-3 py-1.5">
+          <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> 78 ENDPOINTS LIVE
+        </div>
+        <a href="https://platform.openai.com/docs/api-reference" target="_blank" class="text-xs bg-white text-black px-4 py-2 rounded-full font-medium hover:bg-zinc-200 transition">Official Docs →</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="max-w-[1280px] mx-auto px-6 pt-12 pb-8">
+    <div class="grid md:grid-cols-[1.2fr_0.8fr] gap-6">
+      <div>
+        <div class="inline-flex gap-2 items-center glass rounded-full px-3 py-1 text-[11px] font-mono text-zinc-400 mb-4">
+          <span class="px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30">NEW</span>
+          Responses API is now the standard
+        </div>
+        <h2 class="font-display text-[42px] md:text-[56px] leading-[0.95] tracking-tight font-bold">
+          Every API behind<br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-300">ChatGPT.com</span>
+        </h2>
+        <p class="text-zinc-400 text-[15px] leading-relaxed mt-4 max-w-[520px]">
+          The public Platform APIs + the internal backend-api that the ChatGPT web app actually calls. Visualized for builders.
+        </p>
+        <div class="flex gap-3 mt-6">
+          <input id="search" placeholder="Search endpoint, e.g. /responses, audio, vector_stores..." class="w-full max-w-[420px] bg-[#141415] border border-white/10 rounded-full px-5 py-3 text-[14px] outline-none focus:border-violet-500/50 placeholder:text-zinc-600 font-mono">
+          <button onclick="document.getElementById('search').value=''; filter()" class="glass rounded-full px-4 text-xs">Clear</button>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="glass rounded-[20px] p-5">
+          <p class="text-[11px] font-mono tracking-widest text-zinc-500 uppercase">Stack</p>
+          <p class="font-display font-semibold mt-2">React 19, React Router 7, Vite, Tailwind, Radix, ProseMirror, CodeMirror</p>
+          <p class="text-xs text-zinc-500 mt-2 font-mono">Cloudflare • Datadog • Statsig</p>
+        </div>
+        <div class="glass rounded-[20px] p-5 bg-gradient-to-br from-violet-600/20 to-transparent">
+          <p class="text-[11px] font-mono tracking-widest text-violet-300 uppercase">Streaming</p>
+          <p class="font-mono text-[13px] mt-3 leading-relaxed">SSE over fetch<br>LiveKit + WebRTC<br>WebAssembly audio</p>
+          <p class="text-[10px] text-zinc-500 mt-3">NOT WebSockets for chat</p>
+        </div>
+        <div class="glass rounded-[20px] p-5 col-span-2 flex justify-between items-center">
+          <div>
+            <p class="text-[11px] font-mono tracking-widest text-zinc-500 uppercase">Infra</p>
+            <p class="text-[13px] mt-1">Azure • 7500+ node K8s • Python • PyTorch • CUDA • Redis • CosmosDB</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-white text-black grid place-items-center">↗</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="flex flex-wrap gap-2 mt-10 mb-6 text-[11px] font-mono">
+      <span class="flex items-center gap-2 glass rounded-full px-3 py-1.5"><span class="w-2 h-2 rounded-full method-post"></span> POST</span>
+      <span class="flex items-center gap-2 glass rounded-full px-3 py-1.5"><span class="w-2 h-2 rounded-full method-get"></span> GET</span>
+      <span class="flex items-center gap-2 glass rounded-full px-3 py-1.5"><span class="w-2 h-2 rounded-full method-delete"></span> DELETE</span>
+      <span class="flex items-center gap-2 glass rounded-full px-3 py-1.5"><span class="w-2 h-2 rounded-full method-ws"></span> Realtime / WS</span>
+      <span class="ml-auto text-zinc-500">Tip: click any card to copy curl</span>
+    </div>
+
+    <!-- Sections Container -->
+    <div id="sections" class="space-y-12">
+
+      <!-- CORE -->
+      <section data-group="core">
+        <div class="flex items-baseline gap-3 mb-4">
+          <h3 class="font-display text-[22px] font-semibold">1. Core Generation</h3>
+          <span class="text-[11px] font-mono text-zinc-500 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full"> RECOMMENDED</span>
+        </div>
+        <div class="grid md:grid-cols-3 gap-3 api-grid">
+          <div class="api-card glass rounded-[16px] p-4 hover:bg-white/[0.06] transition cursor-pointer group" data-search="responses gpt-5 gpt-4o unified stateful tools">
+            <div class="flex justify-between items-start">
+              <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+              <span class="text-[10px] font-mono text-violet-300 border border-violet-500/30 bg-violet-500/10 px-2 py-1 rounded-full">NEW STANDARD</span>
+            </div>
+            <p class="font-mono text-[13px] mt-3 font-medium">/v1/responses</p>
+            <p class="text-[12px] text-zinc-400 mt-1 leading-relaxed">Unified text+image+audio input, built-in tools (web search, file search, code interpreter, image gen). 40-80% better cache.</p>
+            <p class="text-[11px] font-mono text-zinc-500 mt-3">Models: GPT-5, GPT-4.1, GPT-4o</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4 hover:bg-white/[0.06] transition cursor-pointer" data-search="chat completions gpt-4o memory conversation">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3 font-medium">/v1/chat/completions</p>
+            <p class="text-[12px] text-zinc-400 mt-1">Multi-turn conversations, function calling, JSON mode, streaming via SSE.</p>
+            <p class="text-[11px] font-mono text-zinc-500 mt-3">Up to 128k context</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4 opacity-60" data-search="completions legacy gpt-3">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/completions</p>
+            <p class="text-[12px] text-zinc-400 mt-1">Legacy. Single prompt completion.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- AUDIO REALTIME -->
+      <section data-group="audio">
+        <h3 class="font-display text-[22px] font-semibold mb-4">2. Audio & Realtime</h3>
+        <div class="grid md:grid-cols-4 gap-3 api-grid">
+          <div class="api-card glass rounded-[16px] p-4" data-search="audio transcriptions whisper stt">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/audio/transcriptions</p>
+            <p class="text-[12px] text-zinc-400 mt-1">Whisper v3, speech-to-text</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="audio translations">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/audio/translations</p>
+            <p class="text-[12px] text-zinc-400 mt-1">Translate audio → English</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="audio speech tts">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/audio/speech</p>
+            <p class="text-[12px] text-zinc-400 mt-1">TTS streaming, voices: alloy, nova...</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4 border-violet-500/30 bg-violet-500/[0.06]" data-search="realtime webrtc websocket voice low latency">
+            <span class="method-ws text-[10px] font-mono font-bold px-2 py-1 rounded text-white">WS • RTC</span>
+            <p class="font-mono text-[13px] mt-3">/v1/realtime/sessions</p>
+            <p class="text-[12px] text-zinc-300 mt-1">Full-duplex voice. WebRTC / WebSocket / SIP</p>
+            <p class="text-[11px] font-mono text-violet-300 mt-2">gpt-4o-realtime, gpt-realtime</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- IMAGES VIDEO -->
+      <section data-group="vision">
+        <h3 class="font-display text-[22px] font-semibold mb-4">3. Images & Video (Sora)</h3>
+        <div class="grid md:grid-cols-3 gap-3 api-grid">
+          <div class="api-card glass rounded-[16px] p-4" data-search="images generations dalle gpt-image">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/images/generations</p>
+            <p class="text-[12px] text-zinc-400 mt-1">DALL·E 3, gpt-image-1, up to 4MP</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="images edits inpainting">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/images/edits</p>
+            <p class="text-[12px] text-zinc-400 mt-1">Mask-based editing</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="video sora">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/videos</p>
+            <p class="text-[12px] text-zinc-400 mt-1">Sora video generation, storyboarding</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- EMBEDDINGS RAG -->
+      <section data-group="rag">
+        <h3 class="font-display text-[22px] font-semibold mb-4">4. Embeddings, Vector Stores, Files</h3>
+        <div class="grid md:grid-cols-4 gap-3 api-grid">
+          <div class="api-card glass rounded-[16px] p-4" data-search="embeddings rag retrieval">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/embeddings</p>
+            <p class="text-[12px] text-zinc-400 mt-1">text-embedding-3-large / small</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="files upload">
+            <span class="method-get text-[10px] font-mono font-bold px-2 py-1 rounded text-white">GET / POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/files</p>
+            <p class="text-[12px] text-zinc-400 mt-1">Upload, list, retrieve, delete</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="vector stores file search">
+            <span class="method-get text-[10px] font-mono font-bold px-2 py-1 rounded text-white">GET / POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/vector_stores</p>
+            <p class="text-[12px] text-zinc-400 mt-1">RAG indexes for Responses API</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="moderations safety">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/moderations</p>
+            <p class="text-[12px] text-zinc-400 mt-1">Safety classifier</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ASSISTANTS -->
+      <section data-group="assistants">
+        <h3 class="font-display text-[22px] font-semibold mb-4">5. Assistants v2 (Stateful, now legacy)</h3>
+        <div class="grid md:grid-cols-5 gap-3 api-grid">
+          <div class="api-card glass rounded-[12px] p-3" data-search="assistants">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[12px] mt-2">/v1/assistants</p>
+          </div>
+          <div class="api-card glass rounded-[12px] p-3" data-search="threads">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[12px] mt-2">/v1/threads</p>
+          </div>
+          <div class="api-card glass rounded-[12px] p-3" data-search="messages">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[12px] mt-2">/v1/threads/{id}/messages</p>
+          </div>
+          <div class="api-card glass rounded-[12px] p-3" data-search="runs tool calling">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[12px] mt-2">/v1/threads/{id}/runs</p>
+          </div>
+          <div class="api-card glass rounded-[12px] p-3" data-search="run steps">
+            <span class="method-get text-[10px] font-mono font-bold px-2 py-1 rounded text-white">GET</span>
+            <p class="font-mono text-[12px] mt-2">/v1/.../steps</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TUNING BATCH EVALS -->
+      <section data-group="ops">
+        <h3 class="font-display text-[22px] font-semibold mb-4">6. Fine-tuning, Batch, Evals, Models</h3>
+        <div class="grid md:grid-cols-4 gap-3 api-grid">
+          <div class="api-card glass rounded-[16px] p-4" data-search="fine tuning jobs checkpoints">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/fine_tuning/jobs</p>
+            <p class="text-[11px] text-zinc-500 mt-1">+ /checkpoints, /events</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="batches async">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/batches</p>
+            <p class="text-[11px] text-zinc-500 mt-1">50% cheaper async jobs</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="evals evaluation">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded text-black">POST</span>
+            <p class="font-mono text-[13px] mt-3">/v1/evals</p>
+            <p class="text-[11px] text-zinc-500 mt-1">Model eval pipelines</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="models list gpt-5 o3">
+            <span class="method-get text-[10px] font-mono font-bold px-2 py-1 rounded text-white">GET</span>
+            <p class="font-mono text-[13px] mt-3">/v1/models</p>
+            <p class="text-[11px] text-zinc-500 mt-1">List all model IDs</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADMIN -->
+      <section data-group="admin">
+        <h3 class="font-display text-[22px] font-semibold mb-4">7. Administration API</h3>
+        <div class="grid md:grid-cols-3 gap-3 api-grid">
+          <div class="api-card glass rounded-[16px] p-4 bg-gradient-to-br from-zinc-800/50 to-transparent" data-search="admin organization users invites">
+            <span class="method-get text-[10px] font-mono font-bold px-2 py-1 rounded text-white">ADMIN</span>
+            <p class="font-mono text-[12px] mt-3 leading-relaxed">/v1/organization/users<br>/v1/organization/invites<br>/v1/organization/projects</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="admin api_keys audit logs">
+            <span class="method-get text-[10px] font-mono font-bold px-2 py-1 rounded text-white">ADMIN</span>
+            <p class="font-mono text-[12px] mt-3 leading-relaxed">/v1/organization/api_keys<br>/v1/organization/audit_logs<br>/v1/organization/costs</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4" data-search="admin usage meter">
+            <span class="method-get text-[10px] font-mono font-bold px-2 py-1 rounded text-white">ADMIN</span>
+            <p class="font-mono text-[12px] mt-3 leading-relaxed">/v1/organization/usage<br>/v1/organization/usage/completions<br>/v1/organization/usage/embeddings</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHATGPT INTERNAL -->
+      <section data-group="internal">
+        <div class="flex items-baseline gap-3 mb-4">
+          <h3 class="font-display text-[22px] font-semibold">8. ChatGPT.com Internal (backend-api)</h3>
+          <span class="text-[11px] font-mono text-amber-300 border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 rounded-full">UNOFFICIAL • REVERSE ENGINEERED</span>
+        </div>
+        <div class="grid md:grid-cols-3 gap-3 api-grid">
+          <div class="api-card glass rounded-[16px] p-4 border-amber-500/20" data-search="backend-api internal conversation">
+            <span class="method-post text-[10px] font-mono font-bold px-2 py-1 rounded bg-amber-400 text-black">POST</span>
+            <p class="font-mono text-[12px] mt-3">/backend-api/conversation</p>
+            <p class="text-[11px] text-zinc-400 mt-1">What chatgpt.com web actually calls. SSE stream, not /v1/chat/completions directly.</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4 border-amber-500/20" data-search="backend-api conversations history">
+            <span class="method-get text-[10px] font-mono font-bold px-2 py-1 rounded bg-amber-400 text-black">GET</span>
+            <p class="font-mono text-[12px] mt-3">/backend-api/conversations</p>
+            <p class="text-[11px] text-zinc-400 mt-1">List history, uses CosmosDB underneath</p>
+          </div>
+          <div class="api-card glass rounded-[16px] p-4 border-amber-500/20" data-search="backend-api models sentinel requirements">
+            <span class="method-get text-[10px] font-mono font-bold px-2 py-1 rounded bg-amber-400 text-black">GET</span>
+            <p class="font-mono text-[12px] mt-3">/backend-api/models<br>/backend-anon/sentinel/chat-requirements</p>
+            <p class="text-[11px] text-zinc-400 mt-1">Model picker + auth check + Cloudflare bot check</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Copy Toast -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 rounded-full text-sm font-medium shadow-2xl transition-all translate-y-20 opacity-0 pointer-events-none">
+      Copied curl to clipboard
+    </div>
+
+    <footer class="mt-20 border-t border-white/10 pt-6 pb-12 flex justify-between text-[11px] font-mono text-zinc-600">
+      <p>Built for understanding • Not affiliated with OpenAI • Data from performance.dev reverse engineering + platform.openai.com docs</p>
+      <p>© 2026 API Atlas</p>
+    </footer>
+  </div>
+
+<script>
+const searchInput = document.getElementById('search');
+const toast = document.getElementById('toast');
+
+function filter(){
+  const q = searchInput.value.toLowerCase();
+  document.querySelectorAll('.api-card').forEach(card => {
+    const txt = card.getAttribute('data-search') + ' ' + card.innerText.toLowerCase();
+    card.style.display = txt.includes(q) ? 'block' : 'none';
+  });
+  document.querySelectorAll('section').forEach(sec => {
+    const visible = [...sec.querySelectorAll('.api-card')].some(c => c.style.display !== 'none');
+    sec.style.display = visible ? 'block' : 'none';
+  });
+}
+searchInput.addEventListener('input', filter);
+
+function showToast(){
+  toast.style.transform = 'translate(-50%, 0)';
+  toast.style.opacity = '1';
+  setTimeout(()=>{
+    toast.style.transform = 'translate(-50%, 80px)';
+    toast.style.opacity = '0';
+  },1800);
+}
+
+document.querySelectorAll('.api-card').forEach(card => {
+  card.addEventListener('click', ()=>{
+    const endpoint = card.querySelector('p.font-mono')?.innerText || '';
+    const method = card.querySelector('span')?.innerText || 'POST';
+    const curl = `curl https://api.openai.com${endpoint.replace('{id}','123')} \\
+  -H "Authorization: Bearer $OPENAI_API_KEY" \\
+  -H "Content-Type: application/json"`;
+    navigator.clipboard.writeText(curl).then(showToast);
+  });
+});
+</script>
+</body>
+</html>
